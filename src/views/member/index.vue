@@ -1,15 +1,31 @@
 <template>
-  <div class="about">
-    <h1>This is an Member page</h1>
+  <div>
+    <ul>
+      <li v-for="item in dataList" :key="item.id">{{ item.name }}</li>
+    </ul>
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+<script setup>
+import { ref, onMounted } from 'vue'
+import request from '../../api/index'
+
+const dataList = ref([])
+
+const fetchData = async () => {
+  try {
+    // 使用封裝好的實例發送請求
+    const res = await request({
+      url: '/index.php',
+      method: 'get',
+    })
+    dataList.value = res
+  } catch (error) {
+    console.error('獲取資料失敗')
   }
 }
-</style>
+
+onMounted(() => {
+  fetchData()
+})
+</script>
