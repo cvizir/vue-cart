@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // 1. 建立實例
 const service = axios.create({
-  baseURL: 'https://www.winnie.com.tw', // API 的基礎地址
+  baseURL: 'https://www.winnie.com.tw/api/', // API 的基礎地址
   timeout: 5000, // 請求超過 5 秒則判定失敗
   headers: { 'Content-Type': 'application/json' },
 })
