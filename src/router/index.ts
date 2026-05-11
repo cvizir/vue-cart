@@ -9,12 +9,12 @@ const router = createRouter({
       component: () => import('../views/index.vue'),
     },
     {
-      path: '/member',
-      name: 'member',
+      path: '/user',
+      name: 'user',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/member/index.vue'),
+      component: () => import('../views/user/index.vue'),
     },
     {
       path: '/product',
@@ -25,12 +25,12 @@ const router = createRouter({
       component: () => import('../views/product/index.vue'),
     },
     {
-      path: '/orderlist',
-      name: 'orderlist',
+      path: '/order',
+      name: 'order',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/orderlist/index.vue'),
+      component: () => import('../views/order/index.vue'),
     },
   ],
 })
