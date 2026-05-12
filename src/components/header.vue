@@ -876,4 +876,9 @@
 </script>
 
 <style>
+.cart-count {
+  position: absolute;
+  top: -4xp;
+  left: 16xp;
+}
 </style>
