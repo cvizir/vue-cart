@@ -1,10 +1,10 @@
 import axios from 'axios'
+import enviroment from '@/config/enviroment.js'
 
 // 1. 建立實例
 const service = axios.create({
-  baseURL: 'https://www.winnie.com.tw/api/', // API 的基礎地址
+  baseURL: enviroment[import.meta.env.MODE].apiUrl, // API 的基礎地址
   timeout: 5000, // 請求超過 5 秒則判定失敗
-  headers: { 'Content-Type': 'application/json' },
 })
 
 // 2. 請求攔截器 (Request Interceptor)

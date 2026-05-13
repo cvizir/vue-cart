@@ -620,6 +620,33 @@
                 <!-- End .megamenu -->
               </li>
               <li>
+                <a href="#" class="sf-with-ul">Pages</a>
+
+                <ul>
+                  <li v-for="(item, index) in menuList" :key="index">
+                    <a :href="`product/${item.category_code}`" class="sf-with-ul">
+                      {{ item.name }}
+                    </a>
+                    <ul v-if="item.subcat.length > 0">
+                      <li v-for="(item2, index2) in item.subcat" :key="index2">
+                        <a :href="`product/${item.category_code}/${item2.category_code}`">
+                          {{ item2.name }}
+                        </a>
+                        <ul v-if="item2.subcat.length > 0">
+                          <li v-for="(item3, index3) in item2.subcat" :key="index3">
+                            <a
+                              :href="`product/${item.category_code}/${item2.category_code}/${item3.category_code}`"
+                            >
+                              {{ item3.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
                 <a href="category.html" class="sf-with-ul">Shop</a>
 
                 <div class="megamenu megamenu-md">
@@ -766,32 +793,7 @@
                 </div>
                 <!-- End .megamenu megamenu-sm -->
               </li>
-              <li>
-                <a href="#" class="sf-with-ul">Pages</a>
 
-                <ul>
-                  <li>
-                    <a href="about.html" class="sf-with-ul">About</a>
-
-                    <ul>
-                      <li><a href="about.html">About 01</a></li>
-                      <li><a href="about-2.html">About 02</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="contact.html" class="sf-with-ul">Contact</a>
-
-                    <ul>
-                      <li><a href="contact.html">Contact 01</a></li>
-                      <li><a href="contact-2.html">Contact 02</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="login.html">Login</a></li>
-                  <li><a href="faq.html">FAQs</a></li>
-                  <li><a href="404.html">Error 404</a></li>
-                  <li><a href="coming-soon.html">Coming Soon</a></li>
-                </ul>
-              </li>
               <li>
                 <a href="blog.html" class="sf-with-ul">Blog</a>
 
@@ -873,6 +875,28 @@
   </header>
 </template>
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import request from '@/api/index'
+
+const menuList = ref([])
+
+const fetchMenu = async () => {
+  try {
+    // 使用封裝好的實例發送請求
+    const res = await request({
+      url: '/menu.php',
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    menuList.value = res
+  } catch (err) {
+    console.error('獲取資料失敗', err)
+  }
+}
+
+onMounted(() => {
+  fetchMenu()
+})
 </script>
 
 <style>
