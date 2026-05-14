@@ -59,7 +59,8 @@
                       type="text"
                       class="form-control"
                       id="singin-email-2"
-                      name="singin-email"
+                      name="email"
+                      :value="loginForm.email"
                       required
                     />
                   </div>
@@ -71,14 +72,15 @@
                       type="password"
                       class="form-control"
                       id="singin-password-2"
-                      name="singin-password"
+                      name="password"
+                      :value="loginForm.password"
                       required
                     />
                   </div>
                   <!-- End .form-group -->
 
                   <div class="form-footer">
-                    <button type="submit" class="btn btn-outline-primary-2">
+                    <button type="submit" class="btn btn-outline-primary-2" @click="submitData()">
                       <span>LOG IN</span>
                       <i class="icon-long-arrow-right"></i>
                     </button>
@@ -209,7 +211,35 @@
 
 <script setup lang="ts">
 defineOptions({ name: 'IndexView' })
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import request from '@/api/index'
+import axios from 'axios'
+
+const loginForm = ref({
+  email: 'cvizir@gmail.com',
+  password: '12345',
+})
+
+const statusMessage = ref('')
+const received_data = ref({})
+const dataString = ref({
+  account: loginForm.value.email,
+  password: loginForm.value.password,
+})
+
+const submitData = async () => {
+  try {
+    const response = await axios.post('http://localhost/member_login.php', dataString)
+    console.log(response)
+    // 假設後端回傳 { "status": "success", "message": "資料已接收" }
+    received_data.value = response.data.received_data
+    statusMessage.value = response.data.message
+    console.log(received_data.value)
+  } catch (error) {
+    console.error('發送失敗:', error)
+    statusMessage.value = '連線錯誤'
+  }
+}
 </script>
 
 <style>
