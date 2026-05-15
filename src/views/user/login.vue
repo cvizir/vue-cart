@@ -80,7 +80,7 @@
                   <!-- End .form-group -->
 
                   <div class="form-footer">
-                    <button type="submit" class="btn btn-outline-primary-2" @click="submitData()">
+                    <button @click="submitData()" class="btn btn-outline-primary-2">
                       <span>LOG IN</span>
                       <i class="icon-long-arrow-right"></i>
                     </button>
@@ -152,7 +152,7 @@
                   <!-- End .form-group -->
 
                   <div class="form-footer">
-                    <button type="submit" class="btn btn-outline-primary-2">
+                    <button @click="submitData()" class="btn btn-outline-primary-2">
                       <span>SIGN UP</span>
                       <i class="icon-long-arrow-right"></i>
                     </button>
@@ -222,16 +222,17 @@ const loginForm = ref({
 
 const statusMessage = ref('')
 const received_data = ref({})
-const dataString = ref({
-  account: loginForm.value.email,
+const dataString = {
+  email: loginForm.value.email,
   password: loginForm.value.password,
-})
+}
 
 const submitData = async () => {
   try {
-    const response = await axios.post('http://localhost/member_login.php', dataString)
+    const response = await axios.post('http://localhost/cart_api/member_login.php', dataString)
     console.log(response)
     // 假設後端回傳 { "status": "success", "message": "資料已接收" }
+
     received_data.value = response.data.received_data
     statusMessage.value = response.data.message
     console.log(received_data.value)
