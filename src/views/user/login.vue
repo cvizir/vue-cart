@@ -11,7 +11,26 @@
       <!-- End .container -->
     </nav>
     <!-- End .breadcrumb-nav -->
+    <div class="counter-box">
+      <h3>Pinia 狀態管理範例</h3>
 
+      <div v-if="store.isLoading">載入中...</div>
+      <div v-else>
+        <!-- 直接從 store 讀取 state 與 getters -->
+        <p>
+          目前計數：<strong>{{ store.count }}</strong>
+        </p>
+        <p>
+          兩倍數值：<strong>{{ store.doubleCount }}</strong>
+        </p>
+      </div>
+
+      <!-- 點擊觸發 store 的 actions -->
+      <button @click="store.increment">+ 增加</button>
+      <button @click="store.decrement">- 減少</button>
+      <button @click="store.fetchInitialCount">從 API 載入初始值</button>
+      <button @click="handleReset">重設</button>
+    </div>
     <div
       class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
       style="background-image: url('@/assets/images/backgrounds/login-bg.jpg')"
@@ -214,6 +233,19 @@ defineOptions({ name: 'IndexView' })
 import { ref, onMounted } from 'vue'
 import request from '@/api/index'
 import axios from 'axios'
+import { useCounterStore } from '@/stores/counter'
+
+// 實例化 store
+const store = useCounterStore()
+
+// 如果想要重設數值，Pinia 內建了 $reset 方法（限 Options API 寫法，但 Setup 寫法我們可以直接手動重設，或者用下方的 $patch）
+const handleReset = () => {
+  // 快速一次性修改多個 state 的方法：$patch
+  store.$patch({
+    count: 0,
+    isLoading: false,
+  })
+}
 
 const loginForm = ref({
   email: 'cvizir@gmail.com',

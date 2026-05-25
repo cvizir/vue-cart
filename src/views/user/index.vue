@@ -21,7 +21,7 @@
       <!-- End .container -->
     </nav>
     <!-- End .breadcrumb-nav -->
-
+    <Child />
     <div class="page-content">
       <div class="dashboard">
         <div class="container">
@@ -263,7 +263,19 @@
 
 <script setup lang="ts">
 defineOptions({ name: 'IndexView' })
-import { onMounted } from 'vue'
+import { ref, provide } from 'vue'
+import Child from './child.vue'
+const theme = ref('light')
+const toggleTheme = () => {
+  theme.value = theme.value === 'light' ? 'dark' : 'light'
+}
+
+// 💡 關鍵： provide( '唯一識別鑰匙', 要分享出去的資料 )
+// 為了讓子組件也能修改狀態，我們通常會把「狀態本身」和「修改狀態的方法」一起打包成一個物件
+provide('globalTheme', {
+  theme,
+  toggleTheme,
+})
 </script>
 
 <style>
